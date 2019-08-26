@@ -1,0 +1,25 @@
+language: go
+sudo: false
+go:
+- 1.12.x
+stages:
+- test
+- name: deploy
+  if: branch = master
+jobs:
+  include:
+  - stage: test
+    env:
+    - GO111MODULE=on
+    - AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
+    - AWS_BUCKET=AWS_BUCKET
+    install: true
+    script:
+    - go test ./... -coverprofile=coverage.out -covermode=atomic -p=1
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
+notifications:
+  email: false
+  slack:
+    secure: UYvP0c6F3Vr1y/AtVuJigDrusJmwG8PW28xMV69bqpXNbWaUIeleL8tGS40h0wQHENYZI95bR8R4VLtiLgcK02Fx/ohbR7ODhCOameEb5b9Q+jjGn+Qzy0lZ00IhUOH0GyzWo4jms4phmEE49SdDkSkuU1G0Lkj88j8lyO1fnf3H8Uydov7btOiRENjTiamOlBLSqa3ApJnrMFgqKmBG/oQrcDGjESDMrAEOIheTLtApT170ECIQsa8//1+RmjbG/Q+/ju61wREKkzfem+7ln+a7Hls56vlHt32bVxNPoOvjy+t1+hGZZ36z5eKoC+xogCPPqyo1c4n3Qe8TnJXLJYW1gXoNMIqSrQlSGGEJ1tikTkvIsW4ew9N+57zjNrksTrYTpDQwawkiihZGHvP7OQoaW8WVaST6H03OIAFVSwbNmN5dTKaFkxJvJ1ysGrcDQrI5cXItMgkKuFIocaPh6Y+wVN7YTuAnvR8esL3svwC4gZ5t5FYtp0bUbpIWRus/5bziMVgZc8wF/q7CHaBUyS7d6cIOuoNHYoRNRH6TDkuG2YepTK5Nk11E2zPl7KNdkXE9tDmrE2TNTE9j3e/rMoycUorDWbuxVATSDUQea30WmmfLL4ug1cN50INkAXMexEBsGf7fCZUFjF/YtFbulWNT5XVKrHd/+tjvBLaK5vs=
