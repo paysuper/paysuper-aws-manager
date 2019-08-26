@@ -15,6 +15,68 @@ PaySuper AWS S3 manager wrapper
 | AWS_REGION             | -        | eu-west-1 | AWS region                  |
 | AWS_TOKEN              | -        | ""        | AWS region                  |
 
+## Usage example
+
+```go
+package main
+
+import (
+    "context"
+    awsWrapper "github.com/paysuper/paysuper-aws-manager"
+    "log"
+    "os"
+)
+
+func main() {
+    awsManager, err := awsWrapper.New()
+    
+    if err != nil {
+        log.Fatalln(err)
+    }
+    
+    //upload open file
+    file, err := os.Open("/tmp/file.pdf")
+    defer file.Close()
+
+    out := &awsWrapper.UploadInput{
+        Body:     file,
+        FileName: "file.pdf",
+    }
+    _, err = awsManager.Upload(context.TODO(), out)
+
+    if err != nil {
+        log.Fatalln(err)    
+    }
+    
+    log.Println("file upload successfully")
+
+    //upload file by path
+    uploadReq := &awsWrapper.UploadInput{
+        Path:     "/tmp/file.pdf",
+        FileName: "file.pdf",
+    }
+    _, err = awsManager.Upload(context.TODO(), uploadReq)
+
+    if err != nil {
+        log.Fatalln(err)    
+    }
+    
+    log.Println("file upload successfully")
+
+    // download file
+    filePath := os.TempDir() + string(os.PathSeparator) + "file.pdf"
+    downloadReq := &awsWrapper.DownloadInput{
+        FileName: "file.pdf",
+    }
+    _, err = awsManager.Download(context.TODO(), filePath, downloadReq)
+    
+    if err != nil {
+        log.Fatalln(err)    
+    }
+    
+    log.Println("file download successfully")
+}
+```
 
 ## Contributing
 We feel that a welcoming community is important and we ask that you follow PaySuper's [Open Source Code of Conduct](https://github.com/paysuper/code-of-conduct/blob/master/README.md) in all interactions with the community.
