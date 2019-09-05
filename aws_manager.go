@@ -227,61 +227,205 @@ func (m *AwsManager) Download(
 }
 
 func (m *UploadInput) toAwsUploadInput() *s3manager.UploadInput {
-	return &s3manager.UploadInput{
-		ACL:                       aws.String(m.ACL),
-		Body:                      m.Body,
-		Bucket:                    aws.String(m.Bucket),
-		CacheControl:              aws.String(m.CacheControl),
-		ContentDisposition:        aws.String(m.ContentDisposition),
-		ContentEncoding:           aws.String(m.ContentEncoding),
-		ContentLanguage:           aws.String(m.ContentLanguage),
-		ContentMD5:                aws.String(m.ContentMD5),
-		ContentType:               aws.String(m.ContentType),
-		Expires:                   aws.Time(m.Expires),
-		GrantFullControl:          aws.String(m.GrantFullControl),
-		GrantRead:                 aws.String(m.GrantRead),
-		GrantReadACP:              aws.String(m.GrantReadACP),
-		GrantWriteACP:             aws.String(m.GrantWriteACP),
-		Key:                       aws.String(m.FileName),
-		Metadata:                  aws.StringMap(m.Metadata),
-		ObjectLockLegalHoldStatus: aws.String(m.ObjectLockLegalHoldStatus),
-		ObjectLockMode:            aws.String(m.ObjectLockMode),
-		ObjectLockRetainUntilDate: aws.Time(m.ObjectLockRetainUntilDate),
-		RequestPayer:              aws.String(m.RequestPayer),
-		SSECustomerAlgorithm:      aws.String(m.SSECustomerAlgorithm),
-		SSECustomerKey:            aws.String(m.SSECustomerKey),
-		SSECustomerKeyMD5:         aws.String(m.SSECustomerKeyMD5),
-		SSEKMSEncryptionContext:   aws.String(m.SSEKMSEncryptionContext),
-		SSEKMSKeyId:               aws.String(m.SSEKMSKeyId),
-		ServerSideEncryption:      aws.String(m.ServerSideEncryption),
-		StorageClass:              aws.String(m.StorageClass),
-		Tagging:                   aws.String(m.Tagging),
-		WebsiteRedirectLocation:   aws.String(m.WebsiteRedirectLocation),
+	out := &s3manager.UploadInput{}
+
+	if m.ACL != "" {
+		out.ACL = aws.String(m.ACL)
 	}
+
+	if m.Body != nil {
+		out.Body = m.Body
+	}
+
+	if m.Bucket != "" {
+		out.Bucket = aws.String(m.Bucket)
+	}
+
+	if m.CacheControl != "" {
+		out.CacheControl = aws.String(m.CacheControl)
+	}
+
+	if m.ContentDisposition != "" {
+		out.ContentDisposition = aws.String(m.ContentDisposition)
+	}
+
+	if m.ContentEncoding != "" {
+		out.ContentEncoding = aws.String(m.ContentEncoding)
+	}
+
+	if m.ContentLanguage != "" {
+		out.ContentLanguage = aws.String(m.ContentLanguage)
+	}
+
+	if m.ContentMD5 != "" {
+		out.ContentMD5 = aws.String(m.ContentMD5)
+	}
+
+	if m.ContentType != "" {
+		out.ContentType = aws.String(m.ContentType)
+	}
+
+	if !m.Expires.IsZero() {
+		out.Expires = aws.Time(m.Expires)
+	}
+
+	if m.GrantFullControl != "" {
+		out.GrantFullControl = aws.String(m.GrantFullControl)
+	}
+
+	if m.GrantRead != "" {
+		out.GrantRead = aws.String(m.GrantRead)
+	}
+
+	if m.GrantReadACP != "" {
+		out.GrantReadACP = aws.String(m.GrantReadACP)
+	}
+
+	if m.GrantWriteACP != "" {
+		out.GrantWriteACP = aws.String(m.GrantWriteACP)
+	}
+
+	if m.FileName != "" {
+		out.Key = aws.String(m.FileName)
+	}
+
+	if len(m.Metadata) > 0 {
+		out.Metadata = aws.StringMap(m.Metadata)
+	}
+
+	if m.ObjectLockLegalHoldStatus != "" {
+		out.ObjectLockLegalHoldStatus = aws.String(m.ObjectLockLegalHoldStatus)
+	}
+
+	if m.ObjectLockMode != "" {
+		out.ObjectLockMode = aws.String(m.ObjectLockMode)
+	}
+
+	if !m.ObjectLockRetainUntilDate.IsZero() {
+		out.ObjectLockRetainUntilDate = aws.Time(m.ObjectLockRetainUntilDate)
+	}
+
+	if m.RequestPayer != "" {
+		out.RequestPayer = aws.String(m.RequestPayer)
+	}
+
+	if m.SSECustomerAlgorithm != "" {
+		out.SSECustomerAlgorithm = aws.String(m.SSECustomerAlgorithm)
+	}
+
+	if m.SSECustomerKey != "" {
+		out.SSECustomerKey = aws.String(m.SSECustomerKey)
+	}
+
+	if m.SSECustomerKeyMD5 != "" {
+		out.SSECustomerKeyMD5 = aws.String(m.SSECustomerKeyMD5)
+	}
+
+	if m.SSEKMSEncryptionContext != "" {
+		out.SSEKMSEncryptionContext = aws.String(m.SSEKMSEncryptionContext)
+	}
+
+	if m.SSEKMSKeyId != "" {
+		out.SSEKMSKeyId = aws.String(m.SSEKMSKeyId)
+	}
+
+	if m.ServerSideEncryption != "" {
+		out.ServerSideEncryption = aws.String(m.ServerSideEncryption)
+	}
+
+	if m.StorageClass != "" {
+		out.StorageClass = aws.String(m.StorageClass)
+	}
+
+	if m.Tagging != "" {
+		out.Tagging = aws.String(m.Tagging)
+	}
+
+	if m.WebsiteRedirectLocation != "" {
+		out.WebsiteRedirectLocation = aws.String(m.WebsiteRedirectLocation)
+	}
+
+	return out
 }
 
 func (m *DownloadInput) toAwsGetObjectInput() *s3.GetObjectInput {
-	return &s3.GetObjectInput{
-		Bucket:                     aws.String(m.Bucket),
-		IfMatch:                    aws.String(m.IfMatch),
-		IfModifiedSince:            aws.Time(m.IfModifiedSince),
-		IfNoneMatch:                aws.String(m.IfNoneMatch),
-		IfUnmodifiedSince:          aws.Time(m.IfUnmodifiedSince),
-		Key:                        aws.String(m.FileName),
-		PartNumber:                 aws.Int64(m.PartNumber),
-		Range:                      aws.String(m.Range),
-		RequestPayer:               aws.String(m.RequestPayer),
-		ResponseCacheControl:       aws.String(m.ResponseCacheControl),
-		ResponseContentDisposition: aws.String(m.ResponseContentDisposition),
-		ResponseContentEncoding:    aws.String(m.ResponseContentEncoding),
-		ResponseContentLanguage:    aws.String(m.ResponseContentLanguage),
-		ResponseContentType:        aws.String(m.ResponseContentType),
-		ResponseExpires:            aws.Time(m.ResponseExpires),
-		SSECustomerAlgorithm:       aws.String(m.SSECustomerAlgorithm),
-		SSECustomerKey:             aws.String(m.SSECustomerKey),
-		SSECustomerKeyMD5:          aws.String(m.SSECustomerKeyMD5),
-		VersionId:                  aws.String(m.VersionId),
+	out := &s3.GetObjectInput{
+		PartNumber: aws.Int64(m.PartNumber),
 	}
+
+	if m.Bucket != "" {
+		out.Bucket = aws.String(m.Bucket)
+	}
+
+	if m.IfMatch != "" {
+		out.IfMatch = aws.String(m.IfMatch)
+	}
+
+	if !m.IfModifiedSince.IsZero() {
+		out.IfModifiedSince = aws.Time(m.IfModifiedSince)
+	}
+
+	if m.IfNoneMatch != "" {
+		out.IfNoneMatch = aws.String(m.IfNoneMatch)
+	}
+
+	if !m.IfUnmodifiedSince.IsZero() {
+		out.IfUnmodifiedSince = aws.Time(m.IfUnmodifiedSince)
+	}
+
+	if m.FileName != "" {
+		out.Key = aws.String(m.FileName)
+	}
+
+	if m.Range != "" {
+		out.Range = aws.String(m.Range)
+	}
+
+	if m.RequestPayer != "" {
+		out.RequestPayer = aws.String(m.RequestPayer)
+	}
+
+	if m.ResponseCacheControl != "" {
+		out.ResponseCacheControl = aws.String(m.ResponseCacheControl)
+	}
+
+	if m.ResponseContentDisposition != "" {
+		out.ResponseContentDisposition = aws.String(m.ResponseContentDisposition)
+	}
+
+	if m.ResponseContentEncoding != "" {
+		out.ResponseContentEncoding = aws.String(m.ResponseContentEncoding)
+	}
+
+	if m.ResponseContentLanguage != "" {
+		out.ResponseContentLanguage = aws.String(m.ResponseContentLanguage)
+	}
+
+	if m.ResponseContentType != "" {
+		out.ResponseContentType = aws.String(m.ResponseContentType)
+	}
+
+	if !m.ResponseExpires.IsZero() {
+		out.ResponseExpires = aws.Time(m.ResponseExpires)
+	}
+
+	if m.SSECustomerAlgorithm != "" {
+		out.SSECustomerAlgorithm = aws.String(m.SSECustomerAlgorithm)
+	}
+
+	if m.SSECustomerKey != "" {
+		out.SSECustomerKey = aws.String(m.SSECustomerKey)
+	}
+
+	if m.SSECustomerKeyMD5 != "" {
+		out.SSECustomerKeyMD5 = aws.String(m.SSECustomerKeyMD5)
+	}
+
+	if m.VersionId != "" {
+		out.VersionId = aws.String(m.VersionId)
+	}
+
+	return out
 }
 
 func (opts *Options) HasEmptySettings() bool {

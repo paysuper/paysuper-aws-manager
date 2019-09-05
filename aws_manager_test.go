@@ -10,6 +10,7 @@ import (
 	"os"
 	"syscall"
 	"testing"
+	"time"
 )
 
 var (
@@ -67,8 +68,34 @@ func (suite *AwsManagerTestSuite) TestAwsManager_Upload_WithoutBucket_Ok() {
 	defer file.Close()
 
 	in := &UploadInput{
-		Body:     file,
-		FileName: fileName,
+		Body:                      file,
+		FileName:                  fileName,
+		ACL:                       "ACL",
+		CacheControl:              "CacheControl",
+		ContentDisposition:        "ContentDisposition",
+		ContentEncoding:           "ContentEncoding",
+		ContentLanguage:           "ContentLanguage",
+		ContentMD5:                "ContentMD5",
+		ContentType:               "ContentType",
+		Expires:                   time.Now(),
+		GrantFullControl:          "GrantFullControl",
+		GrantRead:                 "GrantRead",
+		GrantReadACP:              "GrantReadACP",
+		GrantWriteACP:             "GrantWriteACP",
+		Metadata:                  map[string]string{"key": "value"},
+		ObjectLockLegalHoldStatus: "ObjectLockLegalHoldStatus",
+		ObjectLockMode:            "ObjectLockMode",
+		ObjectLockRetainUntilDate: time.Now(),
+		RequestPayer:              "RequestPayer",
+		SSECustomerAlgorithm:      "SSECustomerAlgorithm",
+		SSECustomerKey:            "SSECustomerKey",
+		SSECustomerKeyMD5:         "SSECustomerKeyMD5",
+		SSEKMSEncryptionContext:   "SSEKMSEncryptionContext",
+		SSEKMSKeyId:               "SSEKMSKeyId",
+		ServerSideEncryption:      "ServerSideEncryption",
+		StorageClass:              "StorageClass",
+		Tagging:                   "Tagging",
+		WebsiteRedirectLocation:   "WebsiteRedirectLocation",
 	}
 	_, err = suite.awsManager.Upload(context.TODO(), in)
 	assert.NoError(suite.T(), err)
@@ -97,7 +124,23 @@ func (suite *AwsManagerTestSuite) TestAwsManager_Upload_FileNotFound_Error() {
 func (suite *AwsManagerTestSuite) TestAwsManager_Download_WithoutBucket_Ok() {
 	filePath := os.TempDir() + string(os.PathSeparator) + fileName
 	in := &DownloadInput{
-		FileName: fileName,
+		FileName:                   fileName,
+		IfMatch:                    "IfMatch",
+		IfModifiedSince:            time.Now(),
+		IfNoneMatch:                "IfNoneMatch",
+		IfUnmodifiedSince:          time.Now(),
+		Range:                      "Range",
+		RequestPayer:               "RequestPayer",
+		ResponseCacheControl:       "ResponseCacheControl",
+		ResponseContentDisposition: "ResponseContentDisposition",
+		ResponseContentEncoding:    "ResponseContentEncoding",
+		ResponseContentLanguage:    "ResponseContentLanguage",
+		ResponseContentType:        "ResponseContentType",
+		ResponseExpires:            time.Now(),
+		SSECustomerAlgorithm:       "SSECustomerAlgorithm",
+		SSECustomerKey:             "SSECustomerKey",
+		SSECustomerKeyMD5:          "SSECustomerKeyMD5",
+		VersionId:                  "VersionId",
 	}
 	_, err := suite.awsManager.Download(context.TODO(), filePath, in)
 	assert.NoError(suite.T(), err)
