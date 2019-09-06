@@ -65,7 +65,7 @@ type DownloadInput struct {
 	IfNoneMatch                string
 	IfUnmodifiedSince          time.Time
 	FileName                   string
-	PartNumber                 int64
+	PartNumber                 *int64
 	Range                      string
 	RequestPayer               string
 	ResponseCacheControl       string
@@ -350,7 +350,7 @@ func (m *UploadInput) toAwsUploadInput() *s3manager.UploadInput {
 
 func (m *DownloadInput) toAwsGetObjectInput() *s3.GetObjectInput {
 	out := &s3.GetObjectInput{
-		PartNumber: aws.Int64(m.PartNumber),
+		PartNumber: m.PartNumber,
 	}
 
 	if m.Bucket != "" {
