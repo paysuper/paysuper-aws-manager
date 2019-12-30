@@ -2,7 +2,7 @@
 
 [![License: GPL 3.0](https://img.shields.io/badge/License-GPL3.0-green.svg)](https://opensource.org/licenses/Gpl3.0)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/paysuper/paysuper-aws-manager/issues)
-[![Build Status](https://travis-ci.org/paysuper/paysuper-aws-manager.svg?branch=master)](https://travis-ci.org/paysuper/paysuper-aws-manager)
+[![Build Status](https://travis-ci.com/paysuper/paysuper-aws-manager.svg?branch=master)](https://travis-ci.com/paysuper/paysuper-aws-manager)
 [![codecov](https://codecov.io/gh/paysuper/paysuper-aws-manager/branch/master/graph/badge.svg)](https://codecov.io/gh/paysuper/paysuper-aws-manager)
 [![go report](https://goreportcard.com/badge/github.com/paysuper/paysuper-aws-manager)](https://goreportcard.com/report/github.com/paysuper/paysuper-aws-manager)
 
