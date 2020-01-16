@@ -1,14 +1,18 @@
 language: go
 sudo: false
 go:
-- 1.12.x
+- 1.13.x
 stages:
 - test
 - name: deploy
   if: branch = master
+  
 jobs:
   include:
   - stage: test
+    cache:
+      directories:
+        - $GOPATH/pkg/mod
     env:
     - GO111MODULE=on
     - AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
